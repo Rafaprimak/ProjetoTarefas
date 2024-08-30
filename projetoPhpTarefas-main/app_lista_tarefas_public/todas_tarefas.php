@@ -90,6 +90,11 @@
 									<?php if (isset($tarefa->prioridade)): ?>
 										(Prioridade: <?= $tarefa->prioridade ?>)
 									<?php endif; ?>
+                                    <!-- Adiciona a categoria atual ao final de cada tarefa -->
+                                    <?php if (isset($tarefa->categoria)): ?>
+                                        (Categoria: <?= $tarefa->categoria ?>)
+									<?php endif; ?>
+                                    
 								</div>
 								<div class="col-sm-3 mt-2 d-flex justify-content-between">
 									<i class="fas fa-trash-alt fa-lg text-danger" onclick="remover(<?= $tarefa->id ?>)"></i>
