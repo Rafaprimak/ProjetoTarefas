@@ -11,6 +11,7 @@
 		$tarefa = new Tarefa();
 		$tarefa->__set('tarefa', $_POST['tarefa']);
 		$tarefa->__set('prioridade', $_POST['prioridade']); 
+		$tarefa->__set('prazo', $_POST['prazo']);
 		$conexao = new Conexao();
 		$tarefaService = new TarefaService($conexao, $tarefa);
 		$tarefaService->inserir();
@@ -29,7 +30,8 @@
 
 		$tarefa = new Tarefa();
 		$tarefa->__set('id', $_POST['id'])
-			->__set('tarefa', $_POST['tarefa']);
+				->__set('tarefa', $_POST['tarefa']);
+		$prazo->__set('prazo', $_POST['prazo']);
 
 		$conexao = new Conexao();
 

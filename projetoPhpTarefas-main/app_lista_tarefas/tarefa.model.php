@@ -4,7 +4,8 @@ class Tarefa {
 	private $id;
 	private $id_status;
 	private $tarefa;
-	private $data_cadatro;
+	private $prazo;
+	private $data_cadastro;
 	private $data_cadastrado;
 
 	public function __get($atributo) {

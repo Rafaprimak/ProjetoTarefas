@@ -52,6 +52,7 @@
 											<option value="2">Média</option>
 											<option value="3">Alta</option>
 										</select>
+    									<input type="datetime-local" class="form-control" name="prazo" placeholder="Prazo">
 									</div>
 
 									
