@@ -79,6 +79,13 @@
 			function marcarRealizada(id) {
 				location.href = 'index.php?pag=index&acao=marcarRealizada&id='+id;
 			}
+
+			function arquivar(id) {
+				location.href = 'index.php?acao=arquivarTarefa&id=' + id;
+			}
+			function desarquivar(id) {
+				location.href = 'index.php?acao=desarquivarTarefa&id=' + id;
+			}
 		</script>
 
 	</head>
@@ -119,6 +126,7 @@
 											<i class="fas fa-trash-alt fa-lg text-danger" onclick="remover(<?= $tarefa->id ?>)"></i>
 											<i class="fas fa-edit fa-lg text-info" onclick="editar(<?= $tarefa->id ?>, '<?= $tarefa->tarefa ?>')"></i>
 											<i class="fas fa-check-square fa-lg text-success" onclick="marcarRealizada(<?= $tarefa->id ?>)"></i>
+											<i class="fas fa-archive fa-lg text-warning" onclick="arquivar(<?= $tarefa->id ?>)"></i>
 										</div>
 									</div>
 

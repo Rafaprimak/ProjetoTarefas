@@ -179,5 +179,43 @@ class TarefaService {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function arquivarTarefa() {
+        // Inserir a tarefa na tabela de tarefas arquivadas
+        $query = 'INSERT INTO tb_tarefas_arquivadas (id, id_status, tarefa, data_cadastrado, prioridade, prazo, id_categoria) 
+                SELECT id, id_status, tarefa, data_cadastrado, prioridade, prazo, id_categoria 
+                FROM tb_tarefas 
+                WHERE id = :id';
+        $stmt = $this->conexao->prepare($query);
+        $stmt->bindValue(':id', $this->tarefa->__get('id'));
+        $stmt->execute();
+
+        // Após arquivar, remover a tarefa da tabela original
+        $query = 'DELETE FROM tb_tarefas WHERE id = :id';
+        $stmt = $this->conexao->prepare($query);
+        $stmt->bindValue(':id', $this->tarefa->__get('id'));
+        return $stmt->execute();
+    }
+
+    public function desarquivarTarefa($id) {
+        $query = 'INSERT INTO tb_tarefas (id, id_status, tarefa, data_cadastrado, prioridade, prazo, id_categoria)
+                  SELECT id, id_status, tarefa, data_cadastrado, prioridade, prazo, id_categoria
+                  FROM tb_tarefas_arquivadas WHERE id = :id';
+        $stmt = $this->conexao->prepare($query);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+
+        $query = 'DELETE FROM tb_tarefas_arquivadas WHERE id = :id';
+        $stmt = $this->conexao->prepare($query);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+    }
+    public function recuperarTarefasArquivadas() {
+        $query = 'SELECT * FROM tb_tarefas_arquivadas';
+        $stmt = $this->conexao->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
 }
 ?>

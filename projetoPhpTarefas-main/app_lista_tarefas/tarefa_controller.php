@@ -118,5 +118,37 @@ if ($acao == 'inserir') {
     } else {
         header('location: todas_tarefas.php');
     }
+} else if ($acao == 'arquivarTarefa') {
+    $tarefa = new Tarefa();
+    $tarefa->__set('id', $_GET['id']);
+    $conexao = new Conexao();
+    $tarefaService = new TarefaService($conexao, $tarefa);
+    $tarefaService->arquivarTarefa();
+    if (isset($_GET['pag']) && $_GET['pag'] == 'index') {
+        header('location: index.php');
+    } else {
+        header('location: todas_tarefas.php');
+    }
+} else if ($acao == 'recuperarTarefasArquivadas') {
+    $tarefa = new Tarefa();
+    $conexao = new Conexao();
+    $tarefaService = new TarefaService($conexao, $tarefa);
+    $tarefas = $tarefaService->recuperarTarefasArquivadas();
+} elseif ($acao == 'desarquivar') {
+    $tarefa = new Tarefa();
+    $conexao = new Conexao();
+    $tarefaService = new TarefaService($conexao, $tarefa);
+    $tarefaService->desarquivarTarefa($_GET['id']);
+    header('Location: todas_tarefas.php?acao=recuperarTarefasArquivadas');
+} elseif ($acao == 'desarquivarSelecionadas') {
+    $tarefa = new Tarefa();
+    $conexao = new Conexao();
+    $tarefaService = new TarefaService($conexao, $tarefa);
+    $ids = $_POST['tarefas'];
+    foreach ($ids as $id) {
+        $tarefaService->desarquivarTarefa($id);
+    }
+    header('Location: todas_tarefas.php?acao=recuperarTarefasArquivadas');
 }
+
 ?>
