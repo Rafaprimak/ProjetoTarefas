@@ -1,6 +1,9 @@
 <?php
     $acao = isset($_GET['acao']) ? $_GET['acao'] : 'recuperarTodasTarefas';
     require '../app_lista_tarefas/tarefa_controller.php';
+    require_once '../app_lista_tarefas/tarefa.service.php';
+    require_once '../app_lista_tarefas/conexao.php';
+    require_once '../app_lista_tarefas/tarefa.model.php';
 
     function isSelected($currentAction, $buttonAction) {
         return $currentAction == $buttonAction ? 'btn-selecionado' : '';
@@ -21,6 +24,11 @@
             return strcmp($a->tarefa, $b->tarefa);
         });
     }
+
+    $conexao = new Conexao();
+    $tarefa = new Tarefa();
+    $tarefaService = new TarefaService($conexao, $tarefa);
+    $categorias = $tarefaService->recuperarCategorias();
 ?>
 <html>
 <head>
@@ -46,6 +54,15 @@
         <button class="btn btn-verde <?= isSelected($acao, 'recuperarTarefasPendentes') ?>" onclick="location.href='todas_tarefas.php?acao=recuperarTarefasPendentes'">Pendentes</button>
         <button class="btn btn-verde <?= isSelected($acao, 'recuperarTarefasConcluidas') ?>" onclick="location.href='todas_tarefas.php?acao=recuperarTarefasConcluidas'">Concluídas</button>
     </div>
+    <form method="post" action="todas_tarefas.php?acao=recuperarTarefasPorCategoria">
+    <select name="id_categoria" class="form-control">
+        <option value="">Selecione uma categoria</option>
+        <?php foreach($categorias as $categoria): ?>
+            <option value="<?= $categoria->id ?>"><?= $categoria->categoria ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
 </nav>
 <div class="container app">
     <div class="row">

@@ -1,3 +1,14 @@
+<?php
+	require_once '../app_lista_tarefas/tarefa.service.php';
+	require_once '../app_lista_tarefas/conexao.php';
+	require_once '../app_lista_tarefas/tarefa.model.php';
+
+	$conexao = new Conexao();
+	$tarefa = new Tarefa();
+	$tarefaService = new TarefaService($conexao, $tarefa);
+	$categorias = $tarefaService->recuperarCategorias();
+?>
+
 <html>
 	<head>
 		<meta charset="utf-8" />
@@ -36,34 +47,43 @@
 				</div>
 
 				<div class="col-md-9">
-					<div class="container pagina">
-						<div class="row">
-							<div class="col">
-								<h4>Nova tarefa</h4>
-								<hr />
-
-								<form method="post" action="tarefa_controller.php?acao=inserir">
-									<div class="form-group">
-										<label>Descrição da tarefa:</label>
-										<input type="text" class="form-control" name="tarefa" placeholder="Exemplo: Lavar o carro">
-										<label>Prioridade da tarefa:</label>
-										<select class="form-control" name="prioridade">
-											<option value="1">Baixa</option>
-											<option value="2">Média</option>
-											<option value="3">Alta</option>
-										</select>
-    									<input type="datetime-local" class="form-control" name="prazo" placeholder="Prazo">
-									</div>
-
-									
-
-									<button class="btn btn-success">Cadastrar</button>
-								</form>
-							</div>
+				<div class="container pagina">
+					<div class="row">
+						<div class="col">
+							<h4>Nova tarefa</h4>
+							<hr />
+							<form method="post" action="tarefa_controller.php?acao=inserir">
+								<div class="form-group">
+									<label>Descrição da tarefa:</label>
+									<input type="text" class="form-control" name="tarefa" placeholder="Exemplo: Lavar o carro">
+								</div>
+								<div class="form-group">
+									<label>Prazo:</label>
+									<input type="datetime-local" class="form-control" name="prazo" placeholder="Prazo">
+								</div>
+								<div class="form-group">
+								<label>Prioridade:</label>
+									<select class="form-control" name="prioridade">
+										<option value="1">Baixa</option>
+										<option value="2">Média</option>
+										<option value="3">Alta</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<select name="id_categoria" class="form-control">
+										<option value="">Selecione uma categoria</option>
+										<?php foreach($categorias as $categoria): ?>
+											<option value="<?= $categoria->id ?>"><?= $categoria->categoria ?></option>
+										<?php endforeach; ?>
+									</select>	
+								</div>
+								<button class="btn btn-success">Cadastrar</button>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</body>
+	</div>
+</body>
 </html>
